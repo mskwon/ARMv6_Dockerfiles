@@ -2,17 +2,24 @@ FROM arm32v6/alpine
 LABEL maintainer="michael.s.kwon@gmail.com"
 ENV REFRESHED_AT "2019-09-08"
 
-RUN apk update && apk upgrade
-RUN apk add --no-cache gitea
-EXPOSE 3000 22
-
-WORKDIR /tmp
-RUN git clone --depth=1 https://github.com/go-gitea/gitea.git && \
-	mkdir /usr/bin/custom && \
-	mv /tmp/gitea/options /usr/bin/custom/conf && \
-	rm -rf /tmp/gitea
-WORKDIR /usr/bin/custom
-
-CMD ["gitea", "web"]
-
-
+RUN apk update && apk upgrade 
+RUN apk add --no-cache git
+RUN wget -O /usr/local/bin/gitea https://dl.gitea.io/gitea/master/gitea-master-linux-arm-6 && \
+	chmod +x /usr/local/bin/gitea
+RUN addgroup -S git
+RUN adduser \
+	-S \
+	-s /bin/sh \
+	-g 'Git Version Control' \
+	-G git \
+	-D \
+	-h /home/git \
+	git
+RUN mkdir -p /var/lib/gitea/{custom,data,log} && \
+	chown -R git:git /var/lib/gitea/ && \
+	chmod -R 750 /var/lib/gitea/ && \
+	mkdir /etc/gitea && \
+	chown root:git /etc/gitea && \
+	chmod 770 /etc/gitea 
+ENV GITEA_WORK_DIR=/var/lib/gitea/
+CMD ["/usr/local/bin/gitea", "web", "-c", "/etc/gitea/app.ini"]
