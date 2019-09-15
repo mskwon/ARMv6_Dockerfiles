@@ -14,5 +14,8 @@ RUN apk add --no-cache 	py3-numpy \
 RUN apk add --no-cache  py3-pandas \
 	--repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing
 
+# apache-airflow dependencies
+RUN apk add --no-cache gcc musl-dev
+
 RUN pip3 install --no-cache-dir apache-airflow
 EXPOSE 8080
