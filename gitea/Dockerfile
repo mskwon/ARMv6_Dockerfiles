@@ -15,7 +15,7 @@ RUN adduser \
 	-D \
 	-h /home/git \
 	git
-RUN mkdir -p /var/lib/gitea/custom && \
+RUN mkdir -p /var/lib/gitea/custom/conf && \
 	mkdir -p /var/lib/gitea/data && \
 	mkdir -p /var/lib/gitea/log && \
 	chown -R git:git /var/lib/gitea/ && \
