@@ -24,4 +24,4 @@ RUN mkdir -p /var/lib/gitea/custom && \
 	chown root:git /etc/gitea && \
 	chmod 770 /etc/gitea 
 ENV GITEA_WORK_DIR=/var/lib/gitea/
-CMD ["/usr/local/bin/gitea", "web", "-c", "/etc/gitea/app.ini"]
+CMD ["/usr/local/bin/gitea", "web"]
